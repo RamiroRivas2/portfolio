@@ -39,6 +39,8 @@ function initReveals() {
   document.querySelectorAll<HTMLElement>('.char-reveal:not([data-split])').forEach((el) => {
     el.dataset.split = 'true';
     splitChars(el);
+    // Safe to unhide: every char now sits below its word's overflow mask.
+    el.style.visibility = 'visible';
     gsap.to(el.querySelectorAll('.char'), {
       y: 0,
       duration: 0.9,

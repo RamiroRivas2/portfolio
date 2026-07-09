@@ -1,0 +1,71 @@
+---
+title: 'Stockroom'
+tagline: 'Local-first, event-sourced inventory and invoicing engine for a window and door dealer, driven by an LLM that is never allowed to do the math.'
+order: 1
+year: '2026'
+role: 'Architect & sole developer'
+stack: ['Python', 'SQLite', 'Event Sourcing', 'MCP', 'FastAPI', 'Hexagonal Architecture']
+domain: 'AI + Systems'
+featured: true
+repo: null
+live: null
+video: '/videos/stockroom.mp4'
+accent: '#c8f04a'
+---
+
+## The problem
+
+A window and door dealer runs their business on paper and spreadsheets. Stock counts drift,
+invoices get lost, and nobody trusts the numbers. Off-the-shelf inventory SaaS was rejected:
+monthly bills, cloud dependency, and none of it matched how the shop actually works.
+
+Stockroom is the answer: a small local web app that runs entirely on the dealer's own PC.
+One SQLite file, one localhost server, zero hosting costs. Setup is a double-click on
+`Setup.bat`.
+
+## Architecture: correctness by construction
+
+The core design decision is an **append-only, event-sourced ledger**. Stock is never a
+mutable number in a row - it is the fold of an immutable event history. That gives you an
+audit trail for free and makes drift structurally impossible.
+
+The engine follows a strict hexagonal layout:
+
+```
+src/stockroom/
+  engine/        PURE core - no I/O, no sqlite/MCP/HTTP imports
+  persistence/   SQLite implementation of the engine's ports
+  adapters/      thin entry points: po_ingest, mcp, web, pdf, watcher
+tests/           mirrors the engine - one test per invariant
+```
+
+The `engine/` package has no I/O imports at all: data in, data out. Everything effectful
+lives behind ports implemented in `persistence/` and `adapters/`. That boundary is what
+makes the invariants testable in isolation.
+
+## The eight invariants
+
+The spec defines eight non-negotiable invariants, each backed by its own test. The two
+that shape everything else:
+
+- Stock **rises only** when a purchase order is *received* - never when paperwork is created.
+- Stock **falls only** when a customer invoice is *paid* - never when it is drafted.
+
+Paperwork and physical reality are different event streams, and the ledger refuses to
+confuse them.
+
+## The LLM is a translator, not a calculator
+
+Stockroom is exposed to an LLM assistant through an **MCP server**, but the model's role is
+deliberately tiny: it turns natural language into validated tool calls. It never computes
+stock, never maps SKUs, never touches the ledger directly. Every tool call is validated by
+the pure engine before any event is appended.
+
+This is the pattern I keep coming back to for AI in business software: let the model handle
+language, and keep every number deterministic, replayable, and auditable.
+
+## What I'd show you in the demo
+
+- Ingesting a purchase order from a JSON contract and watching stock stay flat until it is received
+- Asking the assistant a question in plain language and seeing the validated tool call it produces
+- Replaying the event log to rebuild the entire stock state from zero

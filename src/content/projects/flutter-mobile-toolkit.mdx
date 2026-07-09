@@ -1,0 +1,56 @@
+---
+title: 'Flutter Mobile Toolkit'
+tagline: 'A published Claude Code plugin: 12 slash commands and 9 specialized AI agents covering the full Flutter + Supabase mobile lifecycle.'
+order: 4
+year: '2026'
+role: 'Author & maintainer'
+stack: ['Claude Code Plugin', 'Flutter', 'Dart', 'Riverpod', 'Supabase', 'GoRouter', 'Freezed']
+domain: 'Developer Tools'
+featured: false
+repo: 'https://github.com/RamiroRivas2/flutter-mobile-toolkit'
+live: null
+video: '/videos/flutter-mobile-toolkit.mp4'
+accent: '#7dd3fc'
+---
+
+## What it is
+
+An installable Claude Code plugin that encodes how I build production Flutter apps with
+Supabase backends. Instead of re-explaining my conventions to an AI assistant in every
+session, the toolkit ships them as **12 slash commands and 9 specialized agents** that
+any developer can install in two commands:
+
+```
+/plugin marketplace add RamiroRivas2/flutter-mobile-toolkit
+/plugin install flutter-mobile-toolkit
+```
+
+## The commands
+
+The Flutter side scaffolds the patterns I actually use - not generic boilerplate:
+
+- `/widget-new` - StatelessWidget, ConsumerWidget, or ConsumerStatefulWidget scaffolds
+- `/screen-new` - a full screen with its GoRouter route, provider wiring, and async state handling
+- `/model-new` - Freezed data models with JSON serialization and Supabase table mapping
+- `/provider-new` - Riverpod providers: FutureProvider, StreamProvider, AsyncNotifier
+- `/feature-plan` - breaks a feature into data, state, and UI layers plus tests before any code
+- `/code-review` and `/lint` - Dart-specific review for bugs, anti-patterns, and performance
+
+The Supabase commands cover the backend half of the same lifecycle, and the 9 agents
+handle longer-horizon work like feature planning and app store release preparation.
+
+## Why building this is different from building an app
+
+A plugin like this is essentially **encoding engineering judgment as a product**. Every
+command embeds opinions: that state lives in Riverpod, that models are Freezed and
+immutable, that a screen is not done until its route and error states exist. Writing
+those opinions down precisely enough that an AI agent applies them consistently is a
+harder spec-writing exercise than most feature work.
+
+It also compounds: the toolkit was extracted from patterns proven in ContractsHub (the
+Flutter app elsewhere on this page), and every app built with it feeds improvements back.
+
+## Try it
+
+The repo is public - install it in Claude Code and scaffold a screen. The fastest way to
+evaluate it is to run `/feature-plan` on a feature you were about to build anyway.

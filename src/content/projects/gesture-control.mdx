@@ -1,0 +1,54 @@
+---
+title: 'Gesture Control'
+tagline: 'A Raspberry Pi camera as a touchless remote: MediaPipe hand tracking, a self-trained gesture classifier, and Wake-on-LAN over a direct Ethernet link.'
+order: 3
+year: '2026'
+role: 'Sole developer'
+stack: ['Python', 'Raspberry Pi', 'MediaPipe', 'WebSocket', 'Wake-on-LAN']
+domain: 'Hardware / CV'
+featured: false
+repo: 'https://github.com/RamiroRivas2/gestureControl'
+live: null
+video: '/videos/gesture-control.mp4'
+accent: '#c8f04a'
+---
+
+## What it is
+
+A Raspberry Pi 5 with a camera module watches for hand gestures and controls my PC:
+launching apps, toggling Discord mute, adjusting volume, or shutting the machine down.
+When the PC is asleep, the Pi wakes it with a Wake-on-LAN packet over a direct
+3-foot Ethernet link between the two machines.
+
+```
+Pi Camera -> MediaPipe landmarks -> gesture classifier -> WebSocket -> PC agent -> action
+                                                       |
+                                                       v (if the PC is off)
+                                              Wake-on-LAN via Ethernet
+```
+
+## How it works
+
+MediaPipe extracts 21 hand landmarks per frame on the Pi. Rather than using canned
+gesture recognition, the classifier is **trained on my own recorded samples**, so the
+gesture set is exactly what I want it to be: fist, open palm, thumbs up, peace sign, and
+so on. Recognized gestures are streamed over WebSocket to a lightweight agent on the PC
+that maps each one to an action.
+
+## The details that matter
+
+- **Destructive actions need confirmation.** A fist means shutdown, but only if you
+  repeat the gesture; an open palm cancels anything pending. Accidentally shutting down
+  your PC because you clenched your hand once is exactly the kind of failure mode this
+  design guards against.
+- **The Pi outlives the PC.** Because the controller is a separate always-on device with
+  its own direct Ethernet link, it can bring the PC back from a powered-off state -
+  something a software-only solution can never do.
+- **Cheap, honest latency.** Everything is local: no cloud inference, no round trips.
+  Landmark extraction and classification run on the Pi; the PC agent just executes.
+
+## Why it's here
+
+This is the smallest project on this page and also the most fun to demo. It covers a
+different axis than the others: computer vision, model training, embedded constraints,
+and designing a physical interface that has to fail safely.

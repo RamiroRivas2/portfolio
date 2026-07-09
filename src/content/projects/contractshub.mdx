@@ -1,0 +1,48 @@
+---
+title: 'ContractsHub'
+tagline: 'A production Flutter app for managing contracts and payments, with its own documented design system and a full testing playbook.'
+order: 5
+year: '2026'
+role: 'Sole developer'
+stack: ['Flutter', 'Dart', 'Supabase', 'Kotlin', 'Design System']
+domain: 'Mobile'
+featured: false
+repo: null
+live: null
+video: '/videos/contractshub.mp4'
+accent: '#c084fc'
+---
+
+## What it is
+
+ContractsHub is a mobile app for managing contracts end to end - clients, agreements,
+and a payment system - built in Flutter with roughly 1.4 MB of Dart source. It is the
+project where my mobile conventions were forged, and it later became the blueprint for
+the Flutter Mobile Toolkit plugin.
+
+## Built like a product, not a prototype
+
+Three artifacts in the repo say more about the engineering culture than the code itself:
+
+- **A handoff-grade design system.** Colors, typography, and component specs live in a
+  dedicated design-system package with annotated screenshots of every screen, from login
+  onward. UI decisions are documented, not tribal knowledge.
+- **A payment system with its own documentation.** Money flows are specified in a
+  standalone document covering states, edge cases, and failure handling before they were
+  implemented.
+- **A testing playbook.** A test suite reference, scenario catalog, and day-by-day
+  testing guide - plus a standing master bug plan - keep quality work structured instead
+  of reactive.
+
+## Architecture
+
+The app follows the layered approach the toolkit later codified: Freezed models mapped to
+Supabase tables at the data layer, Riverpod providers for state, and screens wired
+through GoRouter with explicit loading and error states. The companion landing page
+(Contracted-Web) handles acquisition on the web side.
+
+## The demo
+
+The video walkthrough covers the core loop: creating a client, drafting a contract,
+taking a payment through its full state machine, and what the app does when a payment
+fails partway through.

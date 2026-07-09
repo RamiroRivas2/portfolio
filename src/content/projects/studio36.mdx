@@ -1,0 +1,47 @@
+---
+title: 'Studio 36'
+tagline: 'A bespoke, animation-heavy website for a creative studio: custom cursor, scroll choreography, and a hand-built asset pipeline.'
+order: 7
+year: '2024-2026'
+role: 'Sole developer'
+stack: ['JavaScript', 'TypeScript', 'React', 'SCSS', 'Node.js']
+domain: 'Web / Motion'
+featured: true
+repo: null
+live: null
+video: '/videos/studio36.mp4'
+accent: '#f472b6'
+---
+
+## What it is
+
+A custom website for Studio 36, built from scratch rather than on a template - custom
+webfonts, an SVG-driven custom cursor with contextual states (arrows for carousels,
+play/pause for media), a project showcase fed from structured JSON data, and a bundled
+asset pipeline. At roughly 2 MB of JavaScript plus TypeScript and SCSS, it is the largest
+frontend codebase on this page.
+
+## Three generations of the same site
+
+The repo history tells an honest story: the site exists in three iterations, from an
+early version through a Node.js-served build with a hand-rolled bundling setup, to the
+current React + TypeScript client. Each rewrite kept the design language and threw away
+the architecture that had stopped earning its keep. Knowing when to rewrite - and what
+to preserve - is most of the skill.
+
+## Motion as a first-class feature
+
+Everything about the site is built around feel:
+
+- **A contextual custom cursor** that changes shape based on what it hovers - directional
+  arrows over carousels, play and pause over videos - implemented with layered SVGs
+- **Scroll-choreographed sections** where content reveals are timed to the viewport, not
+  just faded in
+- **A curated typography system** using licensed webfonts served as WOFF2 with proper
+  fallback stacks
+
+## Relationship to this portfolio
+
+Studio 36 is where I developed the motion sensibilities this portfolio site uses - the
+conviction that animation should communicate hierarchy and state, not decorate. If you
+like how this site feels to scroll, this project is why.

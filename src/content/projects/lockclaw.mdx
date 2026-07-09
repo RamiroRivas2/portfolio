@@ -1,0 +1,72 @@
+---
+title: 'LockClaw'
+tagline: 'Compliance-first AI agent for a 550-client tax practice: WhatsApp intake, bilingual replies, and a PII firewall that no message can bypass.'
+order: 2
+year: '2026'
+role: 'Architect & sole developer'
+stack: ['Python', 'FastAPI', 'AWS Bedrock', 'WhatsApp Cloud API', 'SQLite', 'Tesseract OCR', 'AES-256']
+domain: 'AI Agents'
+featured: true
+repo: null
+live: null
+video: '/videos/lockclaw.mp4'
+accent: '#6ee7ff'
+---
+
+## The problem
+
+A South Florida tax practice with roughly 550 mostly Spanish-speaking clients runs on
+WhatsApp. Documents arrive as phone photos at all hours, get lost in chat threads, and
+chasing missing paperwork eats the workday. Any AI tool that helps must survive a hard
+constraint: **raw client PII must never reach a third-party API**. Tax data plus an
+FTC/IRS audit is not a place for "we trust the vendor".
+
+## Defensible by construction
+
+LockClaw's architecture is designed to be explainable to an auditor, not just to an
+engineer. Every inbound event - WhatsApp message, file drop, QuickBooks webhook, IRS
+refund poll - flows through a single FastAPI pipeline where the **PII scanner sits in
+the mandatory path**. There is no code path around it.
+
+```
+WhatsApp / files / QuickBooks / IRS poll
+        v
+  FastAPI webhook -> whitelist filter -> PII scanner (ALWAYS)
+        v
+   Event router
+   |          |
+Code handler ($0)     Claude via AWS Bedrock (unknown patterns only)
+   |          |            v
+   |          +------ de-tokenize
+   v                       v
+        Audit log -> WhatsApp / filesystem
+```
+
+Two properties do the heavy lifting:
+
+- **Code-handler-first routing.** Known patterns - file classification, auto-replies,
+  IRS refund checks, the morning brief, payment receipts - are handled by deterministic
+  code at zero token cost. The LLM only sees genuinely unknown cases.
+- **Tokenization at the boundary.** Before anything reaches Bedrock, the PII scanner
+  replaces names, SSNs, and identifiers with tokens; responses are de-tokenized on the
+  way back. The model works on structure, never on identity.
+
+Everything lands in an append-only audit log, secrets live in the Windows keychain under
+AES-256, and backups follow an encrypted 3-2-1 scheme. A `compliance-mode` startup check
+verifies the whole chain before the agent will serve traffic.
+
+## Document ingestion
+
+Clients send photos, not PDFs. The ingestion pipeline runs a photo quality detector
+(blurry shots get a polite bilingual "please retake" reply), Tesseract OCR, multi-page
+assembly, and a document classifier that files everything into the owner's *existing*
+folder structure - the system learns her organization instead of imposing one. A
+completeness checker knows which documents each return still needs and chases them
+automatically.
+
+## Why this project matters
+
+Most "AI agent" demos assume the model can see everything. LockClaw is the opposite
+discipline: an agent that is useful precisely because of what it is architecturally
+prevented from seeing. Designing the firewall, the tokenizer, and the audit trail so the
+whole system stays provable was the real work.

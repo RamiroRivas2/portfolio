@@ -1,0 +1,47 @@
+---
+title: 'Dealers Portal'
+tagline: 'A .NET estimating and pricing platform for a window manufacturer dealer network: configuration-dependent pricing, discounts, terms, and quote generation.'
+order: 6
+year: '2026'
+role: 'Developer'
+stack: ['C#', 'ASP.NET Core', 'REST API', 'Docker', 'SQL']
+domain: 'Enterprise / .NET'
+featured: false
+repo: null
+live: null
+video: '/videos/dealers-portal.mp4'
+accent: '#f0abfc'
+---
+
+## What it is
+
+A portal where a window manufacturer's dealer network builds estimates: dealers configure
+products line by line, and the system resolves configuration-dependent pricing, per-dealer
+series discounts, charges, and terms into a finished quote. It is the most
+domain-logic-dense codebase on this page - about 1.7 MB of C#.
+
+## The domain is the hard part
+
+Window pricing is not a price-times-quantity problem. A single estimate line depends on
+the product series, dimensions, options like egress requirements, dealer-specific
+discount schedules, and charge rules that apply at both the line and estimate level. The
+API surface reflects that decomposition directly - controllers for estimates, estimate
+lines, line details, line charges, egress rules, customer data, dealer terms, series
+discounts, and a calculator that ties them together.
+
+Getting this right means encoding a paper-and-phone-call business process into code
+precisely enough that a dealer trusts the number at the bottom of the page.
+
+## Engineering shape
+
+- **ASP.NET Core REST API** with resource-oriented controllers and a clear separation
+  between configuration data (series, discounts, terms) and transactional data
+  (estimates, lines, charges)
+- **Dockerized** for consistent deployment
+- Admin surfaces for dealer management: users, logos, terms, and discount schedules
+
+## A note on what can be shown
+
+This system runs a real dealer network, so the walkthrough uses anonymized data and
+focuses on the architecture: how an estimate line flows from configuration to calculated
+price, and how dealer-specific rules layer on top without special-casing the core engine.

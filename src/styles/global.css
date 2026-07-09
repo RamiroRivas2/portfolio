@@ -1,0 +1,165 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-display: 'Space Grotesk Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-body: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #0a0a0b;
+  --color-ink-2: #111114;
+  --color-ink-3: #1a1a1f;
+  --color-paper: #ececf1;
+  --color-muted: #8b8b96;
+  --color-accent: #c8f04a;
+  --color-accent-dim: #9db83a;
+}
+
+html {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ink-3) var(--color-ink);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+/* Grain overlay for the whole site */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: -100%;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+/* Split-text reveal targets start hidden to avoid FOUC before GSAP kicks in */
+.char-reveal .char {
+  display: inline-block;
+  transform: translateY(110%);
+}
+
+.line-mask {
+  overflow: hidden;
+  display: block;
+}
+
+/* Case-study prose */
+.prose-study {
+  max-width: 68ch;
+}
+.prose-study h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 3rem 0 1rem;
+  color: var(--color-paper);
+}
+.prose-study h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem;
+  color: var(--color-paper);
+}
+.prose-study p {
+  color: #b9b9c3;
+  line-height: 1.75;
+  margin-bottom: 1.15rem;
+}
+.prose-study a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-study ul, .prose-study ol {
+  color: #b9b9c3;
+  line-height: 1.7;
+  margin: 0 0 1.15rem 1.25rem;
+  list-style: disc;
+}
+.prose-study ol { list-style: decimal; }
+.prose-study li { margin-bottom: 0.4rem; }
+.prose-study li::marker { color: var(--color-accent-dim); }
+.prose-study strong { color: var(--color-paper); font-weight: 600; }
+.prose-study code {
+  font-size: 0.875em;
+  background: var(--color-ink-3);
+  border: 1px solid #26262e;
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  color: var(--color-paper);
+}
+.prose-study pre {
+  background: var(--color-ink-2) !important;
+  border: 1px solid #26262e;
+  border-radius: 10px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.prose-study pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.prose-study blockquote {
+  border-left: 2px solid var(--color-accent);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+.prose-study table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+.prose-study th {
+  text-align: left;
+  color: var(--color-paper);
+  font-weight: 600;
+  border-bottom: 1px solid #33333d;
+  padding: 0.5rem 0.75rem;
+}
+.prose-study td {
+  color: #b9b9c3;
+  border-bottom: 1px solid #22222a;
+  padding: 0.5rem 0.75rem;
+}

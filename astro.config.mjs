@@ -5,7 +5,7 @@ import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://ramirorivas.dev',
+  site: 'https://thedatamorph.com',
   integrations: [react(), mdx()],
   vite: {
     plugins: [tailwindcss()],

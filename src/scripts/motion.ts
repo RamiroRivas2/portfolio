@@ -93,8 +93,12 @@ function initReveals() {
 function initAll() {
   ScrollTrigger.getAll().forEach((st) => st.kill());
   initLenis();
-  initReveals();
-  ScrollTrigger.refresh();
+  // Wait for webfonts so the character reveal never animates through a font
+  // swap (reflow mid-stagger reads as jank). Resolves instantly once cached.
+  document.fonts.ready.then(() => {
+    initReveals();
+    ScrollTrigger.refresh();
+  });
 }
 
 document.addEventListener('astro:page-load', initAll);

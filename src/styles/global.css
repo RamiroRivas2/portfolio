@@ -44,7 +44,7 @@ body {
 .grain::after {
   content: '';
   position: fixed;
-  inset: -100%;
+  inset: -40%;
   z-index: 60;
   pointer-events: none;
   opacity: 0.05;

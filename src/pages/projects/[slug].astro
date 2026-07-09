@@ -1,0 +1,105 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import VideoSlot from '../../components/VideoSlot.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, tagline, year, role, stack, domain, repo, live, video, accent } = project.data;
+
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const currentIndex = all.findIndex((p) => p.id === project.id);
+const next = all[(currentIndex + 1) % all.length];
+---
+
+<Base title={`${title} - Ramiro Rivas`} description={tagline}>
+  <main class="mx-auto max-w-5xl px-6 pt-36 md:px-10 md:pt-44">
+    <p class="text-xs uppercase tracking-[0.3em] text-muted" data-reveal>
+      {domain} &middot; {year}
+    </p>
+    <h1
+      class="char-reveal font-display mt-5 text-[clamp(2.4rem,7vw,5.5rem)] font-semibold leading-[0.98] tracking-tight"
+    >
+      {title}
+    </h1>
+    <p class="mt-6 max-w-2xl text-xl leading-relaxed text-muted" data-reveal data-delay="0.2">
+      {tagline}
+    </p>
+
+    <div class="mt-12 h-px w-full bg-paper/15" data-line></div>
+
+    <div class="mt-8 grid grid-cols-2 gap-8 text-sm md:grid-cols-4" data-reveal>
+      <div>
+        <p class="mb-2 text-xs uppercase tracking-[0.2em] text-muted">Role</p>
+        <p class="text-paper">{role}</p>
+      </div>
+      <div>
+        <p class="mb-2 text-xs uppercase tracking-[0.2em] text-muted">Year</p>
+        <p class="text-paper">{year}</p>
+      </div>
+      <div class="col-span-2">
+        <p class="mb-2 text-xs uppercase tracking-[0.2em] text-muted">Stack</p>
+        <div class="flex flex-wrap gap-1.5">
+          {stack.map((tech) => (
+            <span class="rounded-full bg-ink-3 px-2.5 py-1 text-xs text-paper/80">{tech}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    {
+      (repo || live) && (
+        <div class="mt-8 flex gap-4 text-sm" data-reveal>
+          {repo && (
+            <a
+              href={repo}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="rounded-full border border-paper/20 px-5 py-2 transition-colors hover:border-accent hover:text-accent"
+            >
+              Source on GitHub &nearr;
+            </a>
+          )}
+          {live && (
+            <a
+              href={live}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="rounded-full border border-paper/20 px-5 py-2 transition-colors hover:border-accent hover:text-accent"
+            >
+              Live &nearr;
+            </a>
+          )}
+        </div>
+      )
+    }
+
+    <div class="mt-14">
+      <VideoSlot video={video} title={title} accent={accent} />
+    </div>
+
+    <article class="prose-study mx-auto py-16 md:py-20">
+      <Content />
+    </article>
+  </main>
+
+  <a
+    href={`/projects/${next.id}/`}
+    class="group block border-t border-paper/10 transition-colors hover:bg-ink-2"
+  >
+    <div class="mx-auto max-w-5xl px-6 py-16 md:px-10">
+      <p class="text-xs uppercase tracking-[0.3em] text-muted">Next project</p>
+      <p class="font-display mt-3 text-[clamp(1.8rem,4vw,3rem)] font-semibold tracking-tight text-paper transition-colors group-hover:text-accent">
+        {next.data.title} <span aria-hidden="true">&nearr;</span>
+      </p>
+    </div>
+  </a>
+</Base>

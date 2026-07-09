@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import StackTicker from '../components/StackTicker.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<Base>
+  <main>
+    <Hero />
+    <StackTicker />
+
+    <section id="work" class="mx-auto max-w-7xl px-6 py-24 md:px-10 md:py-32">
+      <div class="mb-14 flex items-end justify-between">
+        <h2 class="char-reveal font-display text-[clamp(2rem,5vw,4rem)] font-semibold tracking-tight">
+          Selected work
+        </h2>
+        <span class="text-sm text-muted" data-reveal>{projects.length} projects</span>
+      </div>
+      <div class="h-px w-full bg-paper/15" data-line></div>
+
+      <div class="mt-14 grid grid-cols-1 gap-6 md:grid-cols-2">
+        {projects.map((project, i) => <ProjectCard project={project} index={i} />)}
+      </div>
+    </section>
+
+    <section id="about" class="border-t border-paper/10">
+      <div class="mx-auto grid max-w-7xl gap-12 px-6 py-24 md:grid-cols-[1fr_1.4fr] md:px-10 md:py-32">
+        <h2 class="char-reveal font-display text-[clamp(2rem,4vw,3.2rem)] font-semibold tracking-tight">
+          About
+        </h2>
+        <div class="space-y-6 text-lg leading-relaxed text-muted">
+          <p data-reveal>
+            I'm a software engineer who likes owning the whole problem: talking to the person
+            who has it, designing the architecture, shipping the product, and running it in
+            production. Most of the work here was built for real businesses - a window and
+            door dealer, a tax practice, a contracting company - not as exercises.
+          </p>
+          <p data-reveal>
+            I care about systems that are correct by construction: event-sourced ledgers where
+            stock can't drift, AI agents where client PII physically cannot reach a third-party
+            API, invariants enforced with one test each. The demos and writeups on this site go
+            into that level of detail.
+          </p>
+          <p data-reveal>
+            Stack-wise I move between Python, TypeScript, C#/.NET, and Flutter, and I'm
+            comfortable from Raspberry Pi GPIO up to cloud deployment. This site itself is
+            Astro, React, GSAP, and a hand-rolled canvas simulation - view it as project
+            number ten.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

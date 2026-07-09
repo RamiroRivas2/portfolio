@@ -1,6 +1,7 @@
 # ramirorivas.dev
 
-Personal portfolio: seven projects with technical case studies and video walkthroughs.
+Personal portfolio: eight projects with technical case studies and video walkthroughs
+(including this site itself as project eight).
 The site itself is part of the showcase - built from scratch with Astro 5, React islands,
 Tailwind CSS 4, GSAP ScrollTrigger, Lenis smooth scrolling, and a hand-rolled interactive
 canvas simulation in the hero.

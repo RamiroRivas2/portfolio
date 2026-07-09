@@ -1,0 +1,61 @@
+---
+title: 'This Website'
+tagline: 'The portfolio you are reading, treated as a project: scroll choreography, a hand-rolled canvas simulation, and walkthrough videos recorded by a scripted browser.'
+order: 8
+year: '2026'
+role: 'Design & development'
+stack: ['Astro 5', 'React', 'Tailwind CSS 4', 'GSAP ScrollTrigger', 'Lenis', 'Playwright', 'Cloudflare Pages']
+domain: 'Web / Motion'
+featured: true
+repo: 'https://github.com/RamiroRivas2/portfolio'
+live: null
+video: '/videos/this-site.mp4'
+accent: '#c8f04a'
+---
+
+## The brief
+
+A portfolio has one job: prove skill. Most of my work lives in private repos, so the site
+itself has to carry the evidence - which makes it a project in its own right. The rule I
+set: every technique on display here must be one I would defend in production.
+
+## Architecture
+
+Astro 5 renders everything static - ten pages, deployed on Cloudflare Pages, no server.
+React mounts only where interactivity earns it (the hero simulation, magnetic buttons);
+everything else is zero-JS HTML. Each case study is an MDX file in a typed content
+collection, so adding a project is one file with validated frontmatter - title, stack,
+accent color, video path - and the home grid, routes, and next-project links all derive
+from it.
+
+## The motion system
+
+Scrolling runs through Lenis, and every reveal is GSAP + ScrollTrigger: headlines split
+into characters that rise out of a mask, rules draw in, sections fade up on entry. The
+system is declarative - elements opt in with `data-reveal`, `data-line`, or a
+`char-reveal` class, and one script wires the whole site, surviving page transitions by
+re-initializing on Astro's navigation events. Motion communicates hierarchy; nothing
+animates just to animate.
+
+The hero is the one indulgence: a hand-rolled 2D canvas simulation of a dot grid with
+spring physics - each dot is repelled by the cursor and pulled home by a spring, with
+friction tuned so the field settles naturally. No library, ~100 lines, and it respects
+`prefers-reduced-motion` by not running at all.
+
+## The video pipeline
+
+The walkthrough videos on this site were not screen-recorded by hand. A Playwright script
+drives a real browser - typing logins, hovering and clicking actual links, scrolling at
+reading speed with jittered steps - while the session records itself. Real products
+(Stockroom's sandbox, the live Studio 36 site) get genuine walkthroughs; projects with no
+screen to show (a WhatsApp agent, a Raspberry Pi) get animated architecture explainers
+rendered from HTML and recorded the same way. ffmpeg transcodes everything to MP4. The
+result is reproducible: when a product changes, its walkthrough re-records itself with
+one command.
+
+## Why it counts
+
+This site is the smallest codebase on the page and the only one you can fully inspect -
+the repo is public. It demonstrates the judgment calls I care about: static by default,
+JavaScript only where it pays rent, motion as information, and tooling that automates
+the boring parts of staying honest.

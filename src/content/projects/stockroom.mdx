@@ -1,10 +1,10 @@
 ---
 title: 'Stockroom'
-tagline: 'Local-first, event-sourced inventory and invoicing engine for a window and door dealer, driven by an LLM that is never allowed to do the math.'
+tagline: 'Event-sourced inventory and invoicing engine for a window and door dealer, running on a VPS and driven by an LLM that is never allowed to do the math.'
 order: 1
 year: '2026'
 role: 'Architect & sole developer'
-stack: ['Python', 'SQLite', 'Event Sourcing', 'MCP', 'FastAPI', 'Hexagonal Architecture']
+stack: ['Python', 'SQLite', 'Event Sourcing', 'MCP', 'Starlette', 'Nginx', 'Hexagonal Architecture']
 domain: 'AI + Systems'
 featured: true
 repo: null
@@ -17,11 +17,14 @@ accent: '#c8f04a'
 
 A window and door dealer runs their business on paper and spreadsheets. Stock counts drift,
 invoices get lost, and nobody trusts the numbers. Off-the-shelf inventory SaaS was rejected:
-monthly bills, cloud dependency, and none of it matched how the shop actually works.
+none of it matched how the shop actually works.
 
-Stockroom is the answer: a small local web app that runs entirely on the dealer's own PC.
-One SQLite file, one localhost server, zero hosting costs. Setup is a double-click on
-`Setup.bat`.
+Stockroom started local-first - one SQLite file and a localhost server on the dealer's own
+PC, set up with a double-click. Once it became the daily system of record, it graduated to
+a VPS: the same single-file engine, now served over the web behind nginx, with a
+token-gated remote MCP connector so the LLM assistant can reach it from anywhere. The
+architecture didn't change to make that move - that portability was the point of keeping
+the core pure.
 
 ## Architecture: correctness by construction
 
@@ -64,8 +67,9 @@ the pure engine before any event is appended.
 This is the pattern I keep coming back to for AI in business software: let the model handle
 language, and keep every number deterministic, replayable, and auditable.
 
-## What I'd show you in the demo
+## About the demo above
 
-- Ingesting a purchase order from a JSON contract and watching stock stay flat until it is received
-- Asking the assistant a question in plain language and seeing the validated tool call it produces
-- Replaying the event log to rebuild the entire stock state from zero
+The walkthrough is recorded against Stockroom's **sandbox** - an isolated copy with seeded
+demo data and a test login that never touches the real book. It tours the dashboard (KPIs
+and the needs-mapping queue), stock levels, purchase orders, invoices, SKU mapping, and
+the reports page with inventory value and stock health.

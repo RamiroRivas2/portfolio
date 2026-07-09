@@ -43,6 +43,7 @@ function initReveals() {
       y: 0,
       duration: 0.9,
       ease: 'power4.out',
+      force3D: true,
       stagger: 0.018,
       delay: Number(el.dataset.delay ?? 0),
       scrollTrigger: { trigger: el, start: 'top 88%', once: true },
@@ -93,9 +94,18 @@ function initReveals() {
 function initAll() {
   ScrollTrigger.getAll().forEach((st) => st.kill());
   initLenis();
-  // Wait for webfonts so the character reveal never animates through a font
-  // swap (reflow mid-stagger reads as jank). Resolves instantly once cached.
-  document.fonts.ready.then(() => {
+  // Reveals start only once (a) webfonts are ready, so the stagger never
+  // animates through a font swap, and (b) the main thread is idle, so the
+  // tween isn't fighting hydration/script eval for frames on first load.
+  const fontsReady = document.fonts.ready;
+  const threadIdle = new Promise<void>((resolve) => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => resolve(), { timeout: 700 });
+    } else {
+      setTimeout(resolve, 120);
+    }
+  });
+  Promise.all([fontsReady, threadIdle]).then(() => {
     initReveals();
     ScrollTrigger.refresh();
   });

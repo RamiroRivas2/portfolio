@@ -1,0 +1,32 @@
+---
+const items = [
+  'Python', 'TypeScript', 'C# / .NET', 'Flutter & Dart', 'React', 'Astro',
+  'PostgreSQL', 'SQLite', 'Supabase', 'FastAPI', 'ASP.NET Core', 'AWS Bedrock',
+  'MCP', 'MediaPipe', 'GSAP', 'Cloudflare', 'Event Sourcing', 'Raspberry Pi',
+];
+const row = [...items, ...items];
+---
+
+<div class="overflow-hidden border-y border-paper/10 py-5" aria-hidden="true">
+  <div class="ticker flex w-max gap-10">
+    {row.map((item) => (
+      <span class="font-display flex items-center gap-10 whitespace-nowrap text-sm uppercase tracking-[0.25em] text-muted">
+        {item}
+        <span class="h-1 w-1 rounded-full bg-accent"></span>
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .ticker {
+    animation: ticker 40s linear infinite;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker { animation: none; }
+  }
+</style>

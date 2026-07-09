@@ -1,0 +1,30 @@
+---
+import MagneticLink from './MagneticLink.tsx';
+---
+
+<footer class="relative overflow-hidden border-t border-paper/10" id="contact">
+  <div class="mx-auto max-w-7xl px-6 py-24 md:px-10 md:py-32">
+    <p class="text-sm uppercase tracking-[0.3em] text-muted" data-reveal>Got a project in mind?</p>
+    <a
+      href="mailto:ramirorivasperez@gmail.com"
+      class="char-reveal font-display mt-6 block text-[clamp(2rem,7vw,5.5rem)] font-semibold leading-none tracking-tight text-paper hover:text-accent transition-colors duration-300"
+    >
+      Let's build it together
+    </a>
+
+    <div class="mt-20 flex flex-col gap-6 md:flex-row md:items-end md:justify-between" data-reveal>
+      <div class="flex gap-8 text-sm">
+        <MagneticLink client:visible href="https://github.com/RamiroRivas2" label="GitHub" />
+        <MagneticLink client:visible href="mailto:ramirorivasperez@gmail.com" label="Email" />
+      </div>
+      <p class="text-xs text-muted">
+        &copy; 2026 Ramiro Rivas. Designed and built from scratch - this site is part of the portfolio.
+      </p>
+    </div>
+  </div>
+  <div
+    aria-hidden="true"
+    class="pointer-events-none absolute -bottom-40 left-1/2 h-80 w-[60rem] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"
+  >
+  </div>
+</footer>

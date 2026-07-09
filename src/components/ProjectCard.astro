@@ -1,0 +1,73 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  index: number;
+}
+
+const { project, index } = Astro.props;
+const { title, tagline, year, stack, domain, accent, featured } = project.data;
+const number = String(index + 1).padStart(2, '0');
+---
+
+<a
+  href={`/projects/${project.id}/`}
+  class:list={[
+    'group relative block overflow-hidden rounded-2xl border border-paper/10 bg-ink-2 transition-colors duration-500 hover:border-paper/25',
+    featured ? 'md:col-span-2' : '',
+  ]}
+  data-reveal
+>
+  <div class="relative aspect-[16/10] overflow-hidden md:aspect-[2/1]">
+    <!-- Abstract artwork: accent-keyed gradient field, animated on hover -->
+    <div
+      class="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-105"
+      style={`background:
+        radial-gradient(60% 80% at 75% 20%, ${accent}26 0%, transparent 60%),
+        radial-gradient(50% 60% at 20% 85%, ${accent}1f 0%, transparent 65%),
+        linear-gradient(160deg, #16161b 0%, #0c0c0f 100%);`}
+    >
+    </div>
+    <div
+      class="absolute inset-0 opacity-[0.35]"
+      style={`background-image: linear-gradient(${accent}14 1px, transparent 1px), linear-gradient(90deg, ${accent}14 1px, transparent 1px); background-size: 44px 44px;`}
+    >
+    </div>
+    <span
+      class="font-display absolute -bottom-6 right-4 select-none text-[7rem] font-bold leading-none tracking-tighter text-paper/[0.06] transition-all duration-700 group-hover:text-paper/[0.12] md:text-[10rem]"
+      aria-hidden="true"
+    >
+      {number}
+    </span>
+    <span
+      class="absolute left-5 top-5 rounded-full border border-paper/15 px-3 py-1 text-[0.65rem] uppercase tracking-[0.2em] text-muted backdrop-blur-sm"
+    >
+      {domain}
+    </span>
+    <span
+      class="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full border border-paper/15 text-paper opacity-0 transition-all duration-500 group-hover:opacity-100"
+      style={`background:${accent}22`}
+      aria-hidden="true"
+    >
+      &nearr;
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-3 p-6 md:flex-row md:items-end md:justify-between md:p-7">
+    <div>
+      <h3 class="font-display text-2xl font-semibold tracking-tight text-paper md:text-3xl">
+        {title}
+      </h3>
+      <p class="mt-1.5 max-w-md text-sm leading-relaxed text-muted">{tagline}</p>
+    </div>
+    <div class="flex shrink-0 flex-col items-start gap-2 md:items-end">
+      <span class="text-xs text-muted">{year}</span>
+      <div class="flex flex-wrap gap-1.5 md:justify-end">
+        {stack.slice(0, 3).map((tech) => (
+          <span class="rounded-full bg-ink-3 px-2.5 py-1 text-[0.65rem] text-paper/70">{tech}</span>
+        ))}
+      </div>
+    </div>
+  </div>
+</a>

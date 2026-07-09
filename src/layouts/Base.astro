@@ -1,0 +1,39 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource-variable/space-grotesk';
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Ramiro Rivas - Software Engineer',
+  description = 'Portfolio of Ramiro Rivas: full-stack products, AI agents with compliance-first architectures, mobile apps, and hardware experiments.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <ClientRouter />
+  </head>
+  <body class="grain bg-ink text-paper min-h-screen">
+    <Nav />
+    <slot />
+    <Footer />
+    <script src="../scripts/motion.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+---
+import HeroCanvas from './HeroCanvas.tsx';
+---
+
+<section class="relative flex min-h-svh flex-col justify-end overflow-hidden">
+  <HeroCanvas client:load />
+  <div class="pointer-events-none relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 md:px-10 md:pb-28">
+    <p class="text-sm uppercase tracking-[0.35em] text-muted" data-reveal>
+      Ramiro Rivas &mdash; Software Engineer
+    </p>
+    <h1
+      class="char-reveal font-display mt-6 max-w-5xl text-[clamp(2.6rem,8vw,7rem)] font-semibold leading-[0.95] tracking-tight"
+    >
+      I build products end to end
+    </h1>
+    <p class="mt-8 max-w-xl text-lg leading-relaxed text-muted" data-reveal data-delay="0.3">
+      From event-sourced backends and compliance-first AI agents to Flutter apps and
+      gesture-controlled hardware. Seven shipped projects, each explained down to the
+      architecture.
+    </p>
+    <div class="mt-12 flex items-center gap-4 text-xs uppercase tracking-[0.25em] text-muted" data-reveal data-delay="0.45">
+      <span class="inline-block h-10 w-px animate-pulse bg-accent"></span>
+      <span>Scroll to explore the work</span>
+    </div>
+  </div>
+</section>

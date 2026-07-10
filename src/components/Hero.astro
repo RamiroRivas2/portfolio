@@ -2,9 +2,13 @@
 import HeroCanvas from './HeroCanvas.tsx';
 ---
 
-<section class="relative flex min-h-svh flex-col justify-end overflow-hidden">
+<section class="relative flex min-h-svh flex-col overflow-hidden">
   <HeroCanvas client:idle />
-  <div class="pointer-events-none relative z-10 mx-auto w-full max-w-7xl px-6 pb-20 md:px-10 md:pb-28">
+  <!-- 7:3 spacers keep the text block ~45-50% down the viewport on any
+       screen height; hard bottom-anchoring left it far too low on tall
+       monitors. -->
+  <div class="min-h-16 flex-[7]"></div>
+  <div class="pointer-events-none relative z-10 mx-auto w-full max-w-7xl px-6 md:px-10">
     <p class="text-sm uppercase tracking-[0.35em] text-muted" data-reveal>
       Ramiro Rivas &mdash; Software Engineer
     </p>
@@ -23,4 +27,5 @@ import HeroCanvas from './HeroCanvas.tsx';
       <span>Scroll to explore the work</span>
     </div>
   </div>
+  <div class="min-h-20 flex-[3]"></div>
 </section>

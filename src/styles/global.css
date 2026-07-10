@@ -49,19 +49,27 @@ body {
   pointer-events: none;
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* The SVG has no intrinsic size; without this the 256px noise tile
+     stretches across the whole overlay and reads as blotches on large
+     screens instead of fine grain. */
+  background-size: 256px 256px;
+  background-repeat: repeat;
   animation: grain 8s steps(10) infinite;
 }
 
+/* Offsets are % of the overlay itself (180% of the viewport), so anything
+   past 22% drags the overlay's edge into view as a moving dark band.
+   Keep every step at or below 20%. */
 @keyframes grain {
   0%, 100% { transform: translate(0, 0); }
   10% { transform: translate(-5%, -10%); }
   20% { transform: translate(-15%, 5%); }
-  30% { transform: translate(7%, -25%); }
-  40% { transform: translate(-5%, 25%); }
+  30% { transform: translate(7%, -20%); }
+  40% { transform: translate(-5%, 20%); }
   50% { transform: translate(-15%, 10%); }
   60% { transform: translate(15%, 0%); }
   70% { transform: translate(0%, 15%); }
-  80% { transform: translate(3%, 35%); }
+  80% { transform: translate(3%, 20%); }
   90% { transform: translate(-10%, 10%); }
 }
 

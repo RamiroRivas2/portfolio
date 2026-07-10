@@ -76,16 +76,31 @@ body {
 /* Reveal targets are hidden from first paint (JS present only - the .js
    class is set inline in <head>) so nothing flashes before its animation.
    The motion script unhides .char-reveal after splitting; data-reveal and
-   data-line get their visible end state from their tweens. */
+   data-line get their visible end state from their tweens.
+
+   Each target also carries a failsafe: if the motion script never runs
+   (failed fetch, stale deploy, extension), the delayed animation forces
+   everything visible instead of leaving a blank page. The script disarms
+   it with inline animation: none as soon as it loads. */
 .js .char-reveal {
   visibility: hidden;
+  animation: reveal-failsafe 0s 3s forwards;
 }
 .js [data-reveal] {
   opacity: 0;
+  animation: reveal-failsafe 0s 3s forwards;
 }
 .js [data-line] {
   transform: scaleX(0);
   transform-origin: left center;
+  animation: reveal-failsafe 0s 3s forwards;
+}
+@keyframes reveal-failsafe {
+  to {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+  }
 }
 .char-reveal .char {
   display: inline-block;

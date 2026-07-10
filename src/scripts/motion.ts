@@ -94,6 +94,13 @@ function initReveals() {
 }
 
 function initAll() {
+  // The script is alive - disarm the CSS reveal-failsafe before it fires,
+  // so the tweens keep full control of the reveal states.
+  document
+    .querySelectorAll<HTMLElement>('.char-reveal, [data-reveal], [data-line]')
+    .forEach((el) => {
+      el.style.animation = 'none';
+    });
   ScrollTrigger.getAll().forEach((st) => st.kill());
   initLenis();
   // Reveals start only once (a) webfonts are ready, so the stagger never

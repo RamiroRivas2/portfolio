@@ -6,13 +6,23 @@ gsap.registerPlugin(ScrollTrigger);
 
 let lenis: Lenis | null = null;
 
+// One ticker hook for the whole session - registering it per navigation
+// stacks a duplicate raf call on every page swap.
+gsap.ticker.add((time) => lenis?.raf(time * 1000));
+gsap.ticker.lagSmoothing(0);
+
 function initLenis() {
   lenis?.destroy();
   lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1.05 });
   lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time) => lenis!.raf(time * 1000));
-  gsap.ticker.lagSmoothing(0);
 }
+
+// Kill Lenis before the router swaps the DOM: an in-flight glide would
+// otherwise keep lerping and drag the new page to the old page's offset.
+document.addEventListener('astro:before-swap', () => {
+  lenis?.destroy();
+  lenis = null;
+});
 
 /** Wrap every char of an element in a span so lines can slide up out of a mask. */
 function splitChars(el: HTMLElement) {
@@ -101,6 +111,11 @@ function initAll() {
     .forEach((el) => {
       el.style.animation = 'none';
     });
+  // Videos adopted into the document during a view-transition swap can
+  // miss resource selection in some Chrome builds - kick them manually.
+  document.querySelectorAll<HTMLVideoElement>('video').forEach((v) => {
+    if (v.readyState === 0) v.load();
+  });
   ScrollTrigger.getAll().forEach((st) => st.kill());
   initLenis();
   // Reveals start only once (a) webfonts are ready, so the stagger never
